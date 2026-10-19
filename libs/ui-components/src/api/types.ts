@@ -46,6 +46,7 @@ export type ApiRoute =
   | 'v1/maas/subscriptions'
   | 'v1/maas/policies'
   | 'v1/maas/keys'
+  | 'v1/grid/overview'
   | 'v1/quota_snapshots';
 
 /**

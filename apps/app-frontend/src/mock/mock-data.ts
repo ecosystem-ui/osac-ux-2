@@ -1463,7 +1463,7 @@ const privateInstanceTypes: PrivateInstanceType[] = [
 export { computeInstances, bareMetalInstances };
 
 export const mockFixtures: MockApiFixtures = {
-  enabledServices: [ServiceTier.VMAAS, ServiceTier.CAAS, ServiceTier.BMAAS],
+  enabledServices: [ServiceTier.VMAAS, ServiceTier.CAAS, ServiceTier.BMAAS, ServiceTier.MAAS],
   computeInstances,
   bareMetalInstances,
   bareMetalInstanceCatalogItems,

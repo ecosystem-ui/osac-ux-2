@@ -15,6 +15,10 @@ import SecretRoutes from '@osac/ui-components/components/Secret/SecretRoutes';
 import { useSession } from '@osac/ui-components/hooks/use-session';
 import { useTranslation } from '@osac/ui-components/hooks/useTranslation';
 import BillingPage from '@osac/ui-components/pages/admin/BillingPage';
+import GridObservabilityPage from '@osac/ui-components/pages/admin/GridObservabilityPage';
+import MaaSGovernancePage from '@osac/ui-components/pages/admin/MaaSGovernancePage.tsx';
+import MaaSGridPage from '@osac/ui-components/pages/admin/MaaSGridPage.tsx';
+import MaaSModelsPage from '@osac/ui-components/pages/admin/MaaSModelsPage.tsx';
 import AttachNatGatewayWizardPage from '@osac/ui-components/pages/networking/AttachNatGatewayWizardPage';
 import { SecurityGroupDetailPage } from '@osac/ui-components/pages/networking/SecurityGroupDetailPage';
 import { SecurityGroupsListPage } from '@osac/ui-components/pages/networking/SecurityGroupsListPage';
@@ -116,6 +120,42 @@ export const AppShell = ({
             </ShellRoute>
           }
         />
+        <Route
+          path="/admin/observability"
+          element={
+            <ShellRoute>
+              <GridObservabilityPage />
+            </ShellRoute>
+          }
+        />
+        {role === 'admin' && (
+          <>
+            <Route
+              path="/admin/ai-grid"
+              element={
+                <ShellRoute>
+                  <MaaSGridPage />
+                </ShellRoute>
+              }
+            />
+            <Route
+              path="/admin/ai-grid/governance"
+              element={
+                <ShellRoute>
+                  <MaaSGovernancePage />
+                </ShellRoute>
+              }
+            />
+            <Route
+              path="/admin/ai-grid/models"
+              element={
+                <ShellRoute>
+                  <MaaSModelsPage />
+                </ShellRoute>
+              }
+            />
+          </>
+        )}
         <Route
           path="/admin/infrastructure/storage/*"
           element={

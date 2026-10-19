@@ -1,0 +1,70 @@
+/* AI Grid Observability Dashboard Styles */
+
+.grid-observability__stat-card {
+  min-width: 200px;
+  flex: 1;
+}
+
+.grid-observability__stat-card--warn {
+  border-left: 3px solid var(--pf-t--global--color--status--warning--default);
+}
+
+.grid-observability__stat-label {
+  font-size: var(--pf-t--global--font--size--body--sm);
+  color: var(--pf-t--global--color--text--secondary);
+  margin-bottom: var(--pf-t--global--spacer--sm);
+}
+
+.grid-observability__stat-value {
+  font-size: var(--pf-t--global--font--size--3xl);
+  font-weight: var(--pf-t--global--font--weight--body--bold);
+  color: var(--pf-t--global--color--text--primary);
+}
+
+.grid-observability__stat-unit {
+  font-size: var(--pf-t--global--font--size--lg);
+  font-weight: var(--pf-t--global--font--weight--body--default);
+  color: var(--pf-t--global--color--text--secondary);
+  margin-left: var(--pf-t--global--spacer--xs);
+}
+
+.grid-observability__chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--pf-t--global--spacer--md);
+  margin-top: var(--pf-t--global--spacer--md);
+}
+
+.grid-observability__chart-title {
+  margin-bottom: var(--pf-t--global--spacer--md);
+}
+
+.grid-observability__chart {
+  width: 100%;
+  height: auto;
+  margin: var(--pf-t--global--spacer--md) 0;
+}
+
+.grid-observability__chart-caption {
+  font-size: var(--pf-t--global--font--size--sm);
+  color: var(--pf-t--global--color--text--secondary);
+  margin-top: var(--pf-t--global--spacer--sm);
+}
+
+.grid-observability__empty-metric {
+  padding: var(--pf-t--global--spacer--xl) 0;
+  text-align: center;
+  color: var(--pf-t--global--color--text--secondary);
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid-observability__chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-observability__stat-card {
+    min-width: auto;
+  }
+}

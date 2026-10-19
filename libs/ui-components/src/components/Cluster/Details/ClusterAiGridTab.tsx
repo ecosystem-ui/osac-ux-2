@@ -178,24 +178,41 @@ export const ClusterAiGridTab = ({ cluster }: ClusterAiGridTabProps) => {
               <Table aria-label={t('Available models')} variant="compact">
                 <Thead>
                   <Tr>
-                    <Th>{t('Model ID')}</Th>
-                    <Th>{t('Owned by')}</Th>
+                    <Th>{t('Model')}</Th>
+                    <Th>{t('Type')}</Th>
+                    <Th>{t('Locations')}</Th>
+                    <Th>{t('Phase')}</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   {modelsLoading ? (
-                    skeletonRow(2)
+                    skeletonRow(4)
                   ) : models.length === 0 ? (
                     <Tr>
-                      <Td colSpan={2}>{t('No models available.')}</Td>
+                      <Td colSpan={4}>{t('No models available.')}</Td>
                     </Tr>
                   ) : (
                     models.map((model) => (
                       <Tr key={model.id}>
-                        <Td dataLabel={t('Model ID')}>
-                          <code className="cluster-ai-grid__key-preview">{model.id}</code>
+                        <Td dataLabel={t('Model')}>
+                          <div>
+                            <strong>{model.displayName ?? model.name}</strong>
+                            {model.description && (
+                              <div style={{ fontSize: '0.875rem', color: 'var(--pf-v6-global--Color--200)' }}>
+                                {model.description}
+                              </div>
+                            )}
+                          </div>
                         </Td>
-                        <Td dataLabel={t('Owned by')}>{model.ownedBy ?? '—'}</Td>
+                        <Td dataLabel={t('Type')}>
+                          <code style={{ fontSize: '0.875rem' }}>{model.modelRef.kind}</code>
+                        </Td>
+                        <Td dataLabel={t('Locations')}>
+                          {model.locations.length > 0
+                            ? `${model.locations.length} ${model.locations.length === 1 ? t('site') : t('sites')}`
+                            : '—'}
+                        </Td>
+                        <Td dataLabel={t('Phase')}>{model.phase ?? '—'}</Td>
                       </Tr>
                     ))
                   )}
@@ -229,9 +246,9 @@ export const ClusterAiGridTab = ({ cluster }: ClusterAiGridTabProps) => {
                   <Tr>
                     <Th>{t('Name')}</Th>
                     <Th>{t('Models')}</Th>
-                    <Th>{t('Rate limit (req/min)')}</Th>
-                    <Th>{t('Token limit (tokens/day)')}</Th>
-                    <Th>{t('Active keys')}</Th>
+                    <Th>{t('Groups')}</Th>
+                    <Th>{t('Priority')}</Th>
+                    <Th>{t('Phase')}</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -244,17 +261,24 @@ export const ClusterAiGridTab = ({ cluster }: ClusterAiGridTabProps) => {
                   ) : (
                     subscriptions.map((sub) => (
                       <Tr key={sub.id}>
-                        <Td dataLabel={t('Name')}>{sub.spec.name ?? sub.id}</Td>
+                        <Td dataLabel={t('Name')}>
+                          <div>
+                            <strong>{sub.displayName ?? sub.name}</strong>
+                            {sub.description && (
+                              <div style={{ fontSize: '0.875rem', color: 'var(--pf-v6-global--Color--200)' }}>
+                                {sub.description}
+                              </div>
+                            )}
+                          </div>
+                        </Td>
                         <Td dataLabel={t('Models')}>
-                          {sub.spec.modelRefs?.map((m) => m.name).join(', ') ?? '—'}
+                          {sub.modelRefs?.map((m) => m.displayName ?? m.name).join(', ') ?? '—'}
                         </Td>
-                        <Td dataLabel={t('Rate limit (req/min)')}>
-                          {sub.spec.requestsPerMinute?.toLocaleString() ?? '—'}
+                        <Td dataLabel={t('Groups')}>
+                          {sub.owner?.groups?.map((g) => g.name).join(', ') ?? '—'}
                         </Td>
-                        <Td dataLabel={t('Token limit (tokens/day)')}>
-                          {sub.spec.tokensPerDay?.toLocaleString() ?? '—'}
-                        </Td>
-                        <Td dataLabel={t('Active keys')}>{sub.status?.activeKeyCount ?? 0}</Td>
+                        <Td dataLabel={t('Priority')}>{sub.priority}</Td>
+                        <Td dataLabel={t('Phase')}>{sub.phase ?? '—'}</Td>
                       </Tr>
                     ))
                   )}

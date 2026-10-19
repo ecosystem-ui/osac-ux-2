@@ -51,6 +51,41 @@ const getAdminNav = (t: TFunction): NavRow[] => [
   getCatalogNav(t),
   {
     kind: 'section',
+    id: 'nav-ai-grid',
+    label: t('AI Grid'),
+    children: [
+      {
+        kind: 'link',
+        id: 'ai-grid',
+        label: t('Grid'),
+        path: '/admin/ai-grid',
+        service: ServiceTier.MAAS,
+      },
+      {
+        kind: 'link',
+        id: 'observability',
+        label: t('Observability'),
+        path: '/admin/observability',
+        service: ServiceTier.MAAS,
+      },
+      {
+        kind: 'link',
+        id: 'maas-governance',
+        label: t('MaaS Governance'),
+        path: '/admin/ai-grid/governance',
+        service: ServiceTier.MAAS,
+      },
+      {
+        kind: 'link',
+        id: 'maas-models',
+        label: t('Models'),
+        path: '/admin/ai-grid/models',
+        service: ServiceTier.MAAS,
+      },
+    ],
+  },
+  {
+    kind: 'section',
     id: 'nav-administration',
     label: t('Administration'),
     children: [

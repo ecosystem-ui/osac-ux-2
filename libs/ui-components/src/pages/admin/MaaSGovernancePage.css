@@ -1,0 +1,5 @@
+.maas-governance__loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--pf-t--global--spacer--xl);
+}

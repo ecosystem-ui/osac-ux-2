@@ -7,7 +7,12 @@ import { tIdentity } from '@osac/ui-components/test-utils/i18n';
 import { NavLink, NavSection, isNavLink, isNavSection, navRowsForRole } from './shellNav';
 
 const nonIdpRoles: UserRole[] = ['tenant-admin', 'tenant-user'];
-const allServices: ServiceTier[] = [ServiceTier.CAAS, ServiceTier.BMAAS, ServiceTier.VMAAS];
+const allServices: ServiceTier[] = [
+  ServiceTier.CAAS,
+  ServiceTier.BMAAS,
+  ServiceTier.VMAAS,
+  ServiceTier.MAAS,
+];
 
 const findLink = (role: UserRole, linkId: string): NavLink | undefined =>
   navRowsForRole(role, tIdentity, allServices).find(
@@ -87,11 +92,42 @@ describe('navRowsForRole', () => {
     );
   });
 
-  it('does not create a MaaS navigation surface', () => {
+  it('exposes MaaS only in the admin AI Grid navigation surface', () => {
     const rows = navRowsForRole('tenant-user', tIdentity, [ServiceTier.MAAS]);
 
     expect(rows.some((row) => isNavSection(row) && row.id === 'nav-tenant-services')).toBe(false);
     expect(rows).toEqual(expect.arrayContaining([expect.objectContaining({ id: 'catalog' })]));
+    expect(findSection('tenant-user', 'nav-ai-grid')).toBeUndefined();
+    expect(findSection('admin', 'nav-ai-grid')?.children).toEqual([
+      {
+        kind: 'link',
+        id: 'ai-grid',
+        label: 'Grid',
+        path: '/admin/ai-grid',
+        service: ServiceTier.MAAS,
+      },
+      {
+        kind: 'link',
+        id: 'observability',
+        label: 'Observability',
+        path: '/admin/observability',
+        service: ServiceTier.MAAS,
+      },
+      {
+        kind: 'link',
+        id: 'maas-governance',
+        label: 'MaaS Governance',
+        path: '/admin/ai-grid/governance',
+        service: ServiceTier.MAAS,
+      },
+      {
+        kind: 'link',
+        id: 'maas-models',
+        label: 'Models',
+        path: '/admin/ai-grid/models',
+        service: ServiceTier.MAAS,
+      },
+    ]);
   });
 
   it('excludes Services section for admin (cloud-provider-admin) role', () => {
@@ -144,6 +180,14 @@ describe('navRowsForRole', () => {
   });
 
   it('includes Tenants and Billing under Administration for admin role', () => {
+    expect(findSection('admin', 'nav-administration')?.children).toEqual([
+      { kind: 'link', id: 'tenant', label: 'Tenants', path: '/admin/tenants' },
+      { kind: 'link', id: 'billing', label: 'Billing', path: '/admin/billing' },
+    ]);
+  });
+
+  it('keeps the AI Grid section separate from Administration', () => {
+    expect(findSection('admin', 'nav-ai-grid')).toBeDefined();
     expect(findSection('admin', 'nav-administration')?.children).toEqual([
       { kind: 'link', id: 'tenant', label: 'Tenants', path: '/admin/tenants' },
       { kind: 'link', id: 'billing', label: 'Billing', path: '/admin/billing' },
